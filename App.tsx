@@ -2,22 +2,24 @@
 import React, { useState } from 'react';
 import { Button, SafeAreaView, StyleSheet, Text, TextInput } from 'react-native';
 
-//step 1: install & import
 import { useForm, Controller } from "react-hook-form";
 
 function App(): JSX.Element {
 
-  //step 2
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+
   const { control, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
-      email: '',
+      email: email,
+      password: password
     }
   });
 
-  const [email, setEmail] = useState("")
-
   function onSubmit() {
     setEmail("")
+    setPassword("")
   }
 
   return (
@@ -27,6 +29,7 @@ function App(): JSX.Element {
         alignItems: 'center',
         justifyContent: 'center'
       }} >
+
       <Controller
         control={control}
         rules={{
@@ -48,13 +51,41 @@ function App(): JSX.Element {
               setEmail(text)
             }}
             value={email}
-            placeholder="placeholder"
+            placeholder="enter email"
             keyboardType="numeric"
           />
         )}
         name="email"
       />
       {errors.email && <Text style={{ color: 'red' }}>{errors.email.message}</Text>}
+
+      <Controller
+        control={control}
+        rules={{
+          required: { value: true, message: 'Please enter your password' },
+          maxLength: { value: 50, message: 'You have reached maximum limit of characters' }
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            style={{
+              height: 40,
+              margin: 12,
+              borderWidth: 1,
+              padding: 10,
+              borderColor: (errors.password?.message === "" || errors.password === undefined) ? '#E7E7E7' : 'red',
+            }}
+            onChangeText={text => {
+              onChange(text)
+              setPassword(text)
+            }}
+            value={password}
+            placeholder="enter password"
+            keyboardType="numeric"
+          />
+        )}
+        name="password"
+      />
+      {errors.password && <Text style={{ color: 'red' }}>{errors.password.message}</Text>}
 
       <Button
         title='t'
