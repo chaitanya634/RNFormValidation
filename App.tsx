@@ -36,7 +36,13 @@ function App(): JSX.Element {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
-            style={styles.input}
+            style={{
+              height: 40,
+              margin: 12,
+              borderWidth: 1,
+              padding: 10,
+              borderColor: (errors.email?.message === "" || errors.email === undefined) ? '#E7E7E7' : 'red',
+            }}
             onChangeText={text => {
               onChange(text)
               setEmail(text)
@@ -57,14 +63,5 @@ function App(): JSX.Element {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-  },
-});
 
 export default App;
